@@ -1,0 +1,270 @@
+WL Simplistic SnowRunner Mod Editor
+
+Complete Public Release Changelog
+
+Created by Wicked Lord
+Discord: wickedlord69
+
+------------------------------------------------------------------------
+
+v1.2.0 - Editable Third-Party Mod Trucks
+
+New / Expanded
+
+-   Turned Scan Mods from read-only discovery into protected editing of
+    installed third-party mod trucks.
+-   Added friendly Mod.io package names while retaining exact internal
+    truck IDs for targeting.
+-   Added feature-level compatibility: unsupported or inherited
+    components can be skipped without rejecting the entire truck.
+-   Added shared multi-truck PAK cumulative editing so edits to one
+    truck do not overwrite earlier WL edits to sibling trucks in the
+    same PAK.
+-   Added protected external per-mod backup and Restore Original support
+    with baseline verification.
+-   Third-party mod backups are stored outside SnowRunner’s mod scan
+    tree.
+-   Added mod-local custom crane strength support when a safe compatible
+    crane definition can be resolved.
+-   Added service water capacity support alongside fuel, repair points,
+    and spare wheels.
+-   Added All Tires Ignore Ice using SnowRunner’s native
+    IsIgnoreIce="true" property while preserving existing tire friction
+    values.
+-   Added heavy-recovery COG tuning improvements for supported official
+    trucks.
+
+Compatibility / Safety
+
+-   Added compatibility handling for several malformed XML patterns
+    tolerated by SnowRunner, including duplicate attributes, malformed
+    comments, and bare ampersands.
+-   Added keyed Gear structural merge support for the editor-generated
+    forward gear.
+-   Added shared-gearbox cumulative merge handling so legitimate prior
+    WL edits can be preserved across trucks sharing a PAK/gearbox.
+-   Unsafe or ambiguous feature targets fail closed at the narrowest
+    safe scope.
+-   Unsupported features are reported as skipped instead of forcing
+    unsafe edits.
+-   Custom mod crane speed intentionally remains stock where no
+    known-safe universal free-movement control can be resolved.
+-   Scan Mods no longer creates a Desktop discovery TXT file.
+-   Improved UTF-8/BOM handling for Mod.io metadata and friendly names.
+-   Existing protected backup, validation, Preview Changes, game-running
+    lockout, and restore protections remain in place.
+
+Validation
+
+-   Preview compatibility torture test: 792 third-party truck
+    definitions across 497 mod PAKs totaling 57.5 GB.
+-   Result: 792/792 tested definitions safely handled in full or through
+    feature-level compatibility.
+-   Selected regression library: 39/39 real Apply tests succeeded.
+-   In-game testing passed on the modified third-party fleet.
+-   Individual Restore Original testing passed.
+-   Shared multi-truck PAK Restore Original testing passed.
+-   Final release build completed Apply / gameplay / Restore / gameplay
+    smoke testing successfully.
+-   These results describe the tested library and are not a claim of
+    universal compatibility with every SnowRunner mod.
+
+------------------------------------------------------------------------
+
+v1.1.3 - COG Hotfix + Update Checker
+
+-   Fixed Addon/Trailer Center of Gravity applying to nested articulated
+    physics bodies.
+-   COG now targets only the primary PhysicsModel body for
+    addons/trailers.
+-   Fixed Articulated Towing Platform instability under heavy loads when
+    Addon/Trailer COG is enabled.
+-   Added automatic startup update checking.
+-   Added manual Check for Updates button.
+-   Added semantic version comparison and a user-approved link to the
+    official Mod.io download page.
+-   Update-check failures or offline use do not block the editor.
+-   No automatic downloads or self-updating executable behavior.
+-   Scan Mods remained read-only; third-party mod editing was still
+    blocked for safety.
+
+------------------------------------------------------------------------
+
+v1.1.2 - Mechanical Equipment / COG / Suspension Fixes
+
+-   Truck Center of Gravity no longer modifies nested cabin,
+    articulation, or constraint CenterOfMassOffset values.
+-   Suspension Strength/Damping skip zero-travel articulated entries
+    identified by Height=0 and SuspensionMin=0.
+-   Suspension Height compensates existing CamberSuspensionMultiplier
+    values to preserve stock-looking camber on affected suspension
+    architectures.
+-   Global Crane Strength changed to Hinge Position motor Force
+    targeting instead of broad Motor Force edits.
+-   Global Crane Speed changed to ControlledIK movement-speed
+    coefficients instead of Motor Tau.
+-   Expanded global mechanical-equipment coverage to previously missed
+    cargo-module cranes, towing platforms, and telehandler/forklift
+    mechanisms.
+-   ControlledConstraints mechanical speed supports explicit SpeedMult
+    values and validated stock/default SpeedMult cases.
+-   CAT TH357 speed coverage expanded to raise/lower, boom
+    extend/retract, and fork tilt.
+-   Full All Trucks Overpowered regression passed on the previously
+    problematic truck/equipment set.
+-   Crane Speed stress-tested at 5x with standard, heavy, and log
+    cranes.
+-   Multi-Purpose Cargo Module crane, Ramped Towing Platform, and
+    Articulated Towing Platform confirmed working.
+-   CAT TH357 lifting strength and all three controlled movements
+    confirmed working.
+-   COG correction confirmed on International HX520, Caterpillar CT680,
+    Kenworth C500, and Mercedes Mamute.
+-   Suspension Strength/Damping corrections confirmed through controlled
+    A/B testing.
+-   Suspension-height camber compensation confirmed on Tatra 805, Tatra
+    T813, Tatra Force T815-7, and Tatra Phoenix.
+-   Note: Fuel Capacity can require a truck-instance refresh; recover
+    and redeploy a truck if a garage instance still shows the previous
+    capacity.
+
+------------------------------------------------------------------------
+
+v1.1.1 - Tire Grip / Gear Tuning Safety Patch
+
+-   Fixed All Trucks Gear Tuning safety-stop regression.
+-   Fixed Tire Grip so multipliers apply to shared WheelFriction
+    templates and existing friction values in wheel XML.
+-   Tire Grip changes BodyFrictionAsphalt, BodyFriction, and
+    SubstanceFriction only where those attributes already exist; missing
+    attributes are not injected.
+-   Tire Grip fix validated in game with Kenworth, Hummer, and Azov
+    trucks.
+-   Confirmed Scan Mods remained read-only; smoke testing discovered
+    installed mod PAKs/trucks without modifying mod files.
+-   Cleaned the public mod-truck safeguard wording.
+-   Third-party mod editing remained intentionally blocked pending
+    separate per-mod backup/restore protection.
+
+------------------------------------------------------------------------
+
+v1.1.0 - Individual Official Truck Editing
+
+-   Added individual official-truck targeting with dynamic discovery
+    from initial.pak.
+-   Added read-only subscribed mod-truck discovery.
+-   Added cumulative Individual Apply.
+-   Added compatible engine-family and suspension-family editing without
+    cloning or repointing stock component identities.
+-   Replaced Gear Speed with Gear Tuning profiles.
+-   Added proven crane strength/speed and compatible service-addon
+    targeting.
+-   Added Extreme Durability (GLOBAL), including corrected FuelTank
+    DamageCapacity handling.
+-   Preserved protected backup, SHA-256 update tracking, process
+    lockout, compatibility preflight, rebuilt-PAK validation,
+    fail-closed checks, and atomic replacement.
+
+------------------------------------------------------------------------
+
+v1.0.0 - Initial Public Release
+
+-   Global initial.pak editor for SnowRunner gameplay and physics
+    adjustments.
+-   Engine, gearbox, tire, suspension, steering, fuel, winch, crane,
+    service, cargo, and economy controls.
+-   Always AWD conversion with protected default driven axles and
+    optional differential lock.
+-   Truck and addon/trailer center-of-gravity controls.
+-   Truck/upgrade unlocks, region availability, and gearbox controls.
+-   Vanilla, Enhanced, and Overpowered presets.
+-   Preview, automatic trusted backup, Restore Original, and saved
+    settings.
+-   Blocks file-changing operations while SnowRunner is running.
+-   Detects SnowRunner initial.pak changes after game updates and
+    refreshes the trusted baseline safely.
+-   Performs fail-closed compatibility preflight before modifying a
+    newly updated game PAK.
+-   Validates rebuilt PAK before installation.
+-   Uses same-volume atomic replacement with rollback safety.
+-   SHA-256 backup metadata prevents blindly restoring an obsolete
+    game-version backup.
+-   Wicked Lord public branding and application icon.
+
+============================================================
+v1.2.0L - MULTILINGUAL INTERFACE UPDATE
+============================================================
+
+- Added 15-language interface support: English, Russian, German, French,
+  Spanish, Polish, Brazilian Portuguese, Simplified Chinese, Japanese,
+  Korean, Italian, Turkish, Ukrainian, Czech, and Hindi.
+- Added a persistent Language selector with English fallback.
+- Localized main interface controls, headings, buttons, helper/status text,
+  restart prompts, and update-status text.
+- Refined editor layout for longer translated strings, including scan controls,
+  tuning labels, COG controls, preset controls, and the APPLY MODS button.
+- Added the WL logo to the main editor header.
+- Added parser-safe localization handling and build-time PowerShell syntax validation.
+- Language support affects display text only; SnowRunner XML identifiers, truck IDs,
+  PAK contents, paths, and modification logic remain unchanged.
+- Underlying SnowRunner editing engine remains the tested v1.2.0 engine.
+
+v1.2.0L PUBLIC HOTFIX
+- Fixed Scan Trucks UI exception after multilingual Truck Target localization.
+- Removed obsolete subtitle-control update from the scan/target UI path.
+- Editing engine unchanged.
+============================================================
+v1.2.0L PUBLIC UPDATE - AV CLEAN LAUNCHER / APPLY & PREVIEW FIXES
+============================================================
+
+Antivirus / Launcher
+
+- Rebuilt the Windows launcher using a cleaner packaging architecture to reduce antivirus false positives.
+- Removed the previous Base64-embedded PowerShell payload packaging method.
+- Removed runtime extraction of the editor script to a temporary folder.
+- Removed the previous powershell.exe child-process launch method.
+- Removed use of -ExecutionPolicy Bypass.
+- The launcher now hosts the Windows PowerShell automation engine in-process instead of launching an external PowerShell process.
+- Added dynamic Windows PowerShell automation assembly discovery for broader Windows compatibility.
+- Antivirus testing was completed on fresh builds without whitelisting before scan.
+- No editor features were intentionally removed as part of the launcher change.
+
+Cumulative Apply / Targeting Fixes
+
+- Fixed a major cumulative-edit regression where applying changes to a single official truck after All Trucks or category edits could revert large portions of the existing modified PAK back toward stock.
+- Single-truck Apply now uses the current live modified PAK as the output baseline while using the trusted original backup only as the calculation/reference baseline.
+- Fixed multiplier stacking when applying a preset globally and then applying the same or overlapping values to a single truck.
+- Fixed a PAK rebuild bug that could duplicate every archive entry during single-truck edits.
+- Added surgical replacement of only the XML entries that actually changed during targeted official-truck edits.
+- Verified cumulative editing across Restore Original -> All Trucks -> All Scouts -> single-truck workflows.
+- Verified previous All Trucks and category edits remain intact after later single-truck Apply operations.
+- Fixed duplicate truck entries appearing in the official Truck Target selector by de-duplicating discovered trucks by internal truck ID.
+
+Shared Component Handling
+
+- Added clearer Preview reporting for shared SnowRunner component families.
+- Preview now warns when a selected truck uses shared engine, suspension, gearbox, wheel, or winch definitions that may also affect other base-game trucks.
+- Single-truck mode continues to respect SnowRunner's native shared-component architecture rather than cloning or repointing shared component XMLs.
+- Truck-specific values remain isolated where SnowRunner stores them directly in the selected truck's own XML.
+- Confirmed in-game that shared engine-family edits can legitimately affect multiple trucks using the same engine family.
+
+Preview / Interface
+
+- Reworked Preview Changes into cleaner grouped sections such as Engine / Gearbox, Drivetrain, Steering / Suspension / Stability, Tires / Wheels, Recovery / Cranes, Service / Cargo, Durability, Access / Economy, and Other.
+- Reduced the previous wall of raw rule/count output while preserving useful compatibility and shared-scope information.
+- Fixed the Recovery & Cranes section label/layout so it is no longer partially hidden by the All Tires Ignore Ice control.
+- Improved shared-component wording for single versus multiple affected base-game trucks.
+
+Unlocks / Cranes / Regression Validation
+
+- Preserved Unlock All Upgrades/Addons behavior across tested All Trucks, category, and single-truck Apply sequences.
+- Verified official-truck crane strength and crane speed edits continue to apply correctly when the selected truck supports a compatible crane.
+- Confirmed trucks without a compatible crane do not receive crane XML changes.
+- Verified clean archive structure after Restore Original, All Trucks, category, and single-truck Apply operations.
+- Verified no duplicate PAK entries were introduced during the tested workflows.
+- Final regression testing passed in game for All Trucks, All Scouts/category overrides, single-truck overrides, shared-engine behavior, truck-local fuel changes, unlock preservation, and crane strength/speed changes.
+
+Notes
+
+- SnowRunner reuses many shared component families. A single-truck edit to a shared engine, suspension, gearbox, wheel, winch, or similar definition may also affect other trucks that reference the same component.
+- The editor now reports this shared scope more clearly in Preview rather than attempting risky component cloning/repointing.

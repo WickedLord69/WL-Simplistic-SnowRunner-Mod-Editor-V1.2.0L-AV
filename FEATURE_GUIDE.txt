@@ -1,0 +1,140 @@
+﻿WL Simplistic SnowRunner Mod Editor v1.2.0L
+QUICK FEATURE GUIDE
+Creator: Wicked Lord
+
+Values are multipliers unless noted: 1.00 = stock, 1.50 = +50%, 0.50 = half.
+
+TARGETS / TOOLS
+Truck target - Choose All Trucks, a whole truck class, or one truck.
+Scan Trucks - Refresh official trucks from initial.pak.
+Scan Mods - Finds supported installed third-party mod trucks.
+Preview Changes - Shows what would change without writing the PAK.
+APPLY MODS - Writes the selected changes.
+Restore Original - Restores WL's protected original backup.
+Check for Updates - Checks for a newer WL editor release.
+
+ENGINE / FUEL / STEERING
+Engine torque - Multiplies engine pulling power.
+Engine responsiveness - Changes how quickly the engine responds.
+Engine fuel consumption - Multiplies engine fuel use.
+Truck fuel capacity - Multiplies the truck's fuel tank capacity.
+Maximum steering angle - Multiplies maximum wheel steering angle.
+Steering response - Multiplies steering and return response speed.
+
+DRIVETRAIN / GEARBOX
+Always AWD - Makes AWD permanently available/on where supported.
+Always differential lock - Makes differential lock always available where supported.
+Extreme durability (GLOBAL) - Global high-durability mode; affects the whole game data set.
+Gearbox fuel consumption - Multiplies gearbox-related fuel use.
+AWD fuel penalty - Multiplies the extra fuel use caused by AWD.
+Idle fuel use - Multiplies fuel used while idling.
+Gear tuning - Adjusts gearbox progression/top-speed behavior where supported.
+Gearbox durability - Multiplies gearbox damage capacity.
+
+TIRES
+Tire asphalt grip - Multiplies asphalt traction.
+Tire off-road grip - Multiplies dirt/off-road traction.
+Tire mud grip - Multiplies mud/substance traction.
+Tire durability - Multiplies tire damage capacity.
+All tires ignore ice - Gives supported tires SnowRunner's native ignore-ice property.
+Official compatible alternate tire families, including tested JAT/Ultima tires, are supported.
+
+SUSPENSION
+Suspension strength - Multiplies suspension spring strength.
+Suspension height - Multiplies supported suspension height/travel values.
+Suspension damping - Multiplies damping; higher values reduce bouncing more strongly.
+Suspension durability - Multiplies suspension damage capacity.
+
+WINCH / CRANE
+Winch strength - Multiplies winch pulling strength.
+Winch length - Multiplies winch cable length.
+Autonomous winches - Allows supported winches to work without engine ignition.
+Crane strength - Multiplies supported crane motor/constraint force.
+Crane speed - Multiplies supported crane movement speed.
+
+DURABILITY / SERVICE / CARGO
+Engine durability - Multiplies engine damage capacity.
+Fuel tank durability - Multiplies fuel-tank damage capacity.
+Service fuel capacity - Multiplies fuel carried by supported service addons.
+Service water capacity - Multiplies water carried by supported service addons.
+Service repair points - Multiplies repair points on supported service addons.
+Service spare wheels - Multiplies spare-wheel capacity on supported service addons.
+Cargo mass - Multiplies supported cargo physical mass.
+
+UNLOCKS / ECONOMY
+Unlock all trucks - Removes supported truck unlock requirements.
+All trucks in all regions - Makes supported trucks available across regions.
+Truck prices - Multiplies truck purchase prices.
+Upgrade/addon prices - Multiplies supported upgrade/addon prices.
+Unlock all upgrades/addons - Removes rank/exploration requirements for supported upgrades/addons. Category targets now include map-discovery upgrades tied to that category. The checkbox remains available and preserves its state when switching from All Trucks to an individual truck because this unlock is global.
+
+STABILITY
+Truck center-of-gravity drop - Lowers the truck's primary center of gravity; higher drop = more stability.
+Addon/trailer center-of-gravity drop - Lowers supported addon/trailer primary center of gravity. Not used for category targets because many trailers/addons are shared globally.
+
+PRESETS
+Vanilla / Reset - Returns editor fields to stock/default values.
+Enhanced - Loads a moderate tuned preset.
+Overpowered - Loads a much stronger preset.
+Last applied values are saved automatically.
+
+CATEGORY TARGETS
+All Scouts / Highway / Heavy Duty / Off-Road / Heavy apply settings to every official truck in that class in one non-stacking batch. Shared resources are de-duplicated so multipliers are not repeatedly compounded.
+
+NOTE
+Not every SnowRunner truck/addon exposes every setting. WL modifies supported data it can safely identify and reports the changes in Preview/Apply results.
+
+DIFFERENTIAL LOCK
+-----------------
+Always differential lock - Forces supported truck definitions to DiffLockType="Always", including trucks that are stock Uninstalled or Installed/engageable.
+
+UNLOCK ALL TRUCKS
+Unlock all trucks now explicitly forces each targeted base truck's GameData to rank 1 and non-exploration-locked status, including official/DLC truck definitions that omit or inherit those fields. Existing objective/unconditional lock metadata is neutralized when present.
+
+UNLOCK ALL TRUCKS - FIX 2 (2026-09-14)
+- Verified against the user's restored current initial.pak.
+- Objective-gated official trucks are handled generically by removing UnlockByObjective from the base truck GameData when Unlock All Trucks is enabled.
+- Preview/Apply now reports "Truck objective locks removed" separately for easier verification.
+- Regression target: Tayga 6455B (US_06_01_MILL_LOGS / Starting The Plank Production).
+
+CATEGORY APPLY PRESERVATION - VERIFIED FIX 2E
+- Category calculations still use WL's protected pristine backup so multipliers remain non-stacking.
+- Category writes now merge ONLY the requested XML attribute changes into the current live PAK.
+- Existing WL changes that are not part of the current category operation are preserved instead of being replaced by pristine XML.
+- The existing Always Differential Lock preservation/verification guard remains as an additional safety check.
+- Regression focus includes engine, fuel, steering, gearbox, tires, suspension, winch/crane, durability/service, cargo/economy/unlocks, and COG.
+CATEGORY PRESERVATION FIX 2A (2026-09-14)
+- Category semantic merge now recognizes WL Gear Tuning's intentional added <Gear/> element instead of rejecting it as an unsafe structure change.
+- All other unexpected structural differences still fail closed before live initial.pak replacement.
+
+CATEGORY APPLY PRESERVATION FIX 2B
+- Category semantic attribute writes are literal-safe; numeric values can no longer be interpreted as regex capture references.
+- Before any category temp PAK replaces the live initial.pak, every XML entry is scanned for the known FIX 2A "$1" corruption artifact. Detection aborts safely and leaves the live PAK untouched.
+
+
+CATEGORY PRESERVATION FIX 2C (2026-09-14)
+- Dedicated verified Suspension Damping writer after final PAK audit found Damping counts could report changes while installed Damping remained stock.
+- Damping now uses literal-safe existing-attribute edits and fails closed if work is counted without changing XML.
+- FIX 2B literal-safe category merge and pre-swap corruption guard remain in place.
+
+CATEGORY PRESERVATION FIX 2D (2026-09-15)
+- Full five-category regression exposed two remaining overlap defects: base-truck Price could be multiplied again when a base truck XML also appeared in the category upgrade whitelist, and shared service WheelRepairsCapacity could compound across categories.
+- Category base-truck purchase Price is now owned only by TruckPrice and is baseline-locked to pristine Price * requested multiplier.
+- Category-compatible service Fuel/Water/Repairs/Spare Wheels are baseline-locked to pristine values * requested multipliers, preventing shared-addon overlap stacking.
+- Existing FIX 2B literal-safe merge/corruption guard and FIX 2C category preservation behavior remain in place.
+
+CATEGORY PRESERVATION FIX 2E (2026-09-15)
+- Root cause of the remaining shared spare-wheel defect identified: FIX 2D baseline-lock regex used double-escaped regex tokens (\\b / \\d) inside a PowerShell single-quoted string, so the matcher found zero attributes and the lock silently did nothing.
+- Corrected baseline-lock matching to real regex tokens (\b / \d).
+- Added fail-closed detection when a baseline attribute exists but the baseline-lock matcher returns zero occurrences.
+- Regression targets: CK1500 2->10 and 6->30, Tatra tow 3->15, ZIKZ 566A 2->10 at Service Spare Wheels 5.00.
+
+
+CATEGORY PRESERVATION FIX 2E - VERIFIED BASELINE (2026-09-15)
+- VERIFIED after Restore Original -> All Trucks -> All Scouts -> All Off-Road -> All Heavy regression sequence.
+- Final PAK regression confirmed 133/133 engine Torque values at 2.00x, 118/118 truck FuelCapacity values at 3.00x, and 118/118 steering/return-steering values at 1.75x for the test profile.
+- Shared service spare-wheel regression confirmed 167/167 directly comparable WheelRepairsCapacity values at exactly 5.00x pristine baseline.
+- Hard regression targets verified: CK1500 2->10 and 6->30; Tatra tow 3->15; ZIKZ 566A 2->10.
+- Truck Price overlap stacking fix remained verified; no known 0.01x double-multiplied truck-price cases remained.
+- Literal $1 corruption scan: zero occurrences in the verified final PAK.
+- Preserve the baseline-derived/current-live semantic merge, literal-safe writes, fail-closed validation, and baseline locks in future development.

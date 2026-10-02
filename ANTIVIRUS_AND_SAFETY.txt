@@ -1,0 +1,30 @@
+WL Simplistic SnowRunner Mod Editor v1.2.0L
+Antivirus / Packaging Transparency
+
+WL modifies SnowRunner XML stored inside supported PAK archives and therefore performs file operations that some security products may scrutinize.
+
+This release uses a revised launcher architecture designed to avoid the behaviors that caused false-positive detections in older development packaging:
+
+- No Base64-encoded editor payload.
+- No editor script extracted to a random TEMP file at runtime.
+- No "-ExecutionPolicy Bypass" launch argument.
+- No hidden powershell.exe child process at runtime.
+- The editor script is embedded as an application resource and executed through the installed Windows PowerShell automation engine in-process.
+- WL's protected backup / restore and PAK editing behavior remains visible through Preview Changes and the documented safety workflow.
+
+WL may legitimately:
+- Read and update the SnowRunner initial.pak or supported third-party mod PAKs after user action.
+- Create protected backups and temporary working PAKs during safe rebuild operations.
+- Read installed mod files for Scan Mods / compatibility checks.
+- Contact the configured WL update-information source when the user uses update checking.
+- Open the official download page when requested.
+- Use WinRAR for supported third-party mod PAK rebuild operations where required by the editor workflow.
+
+Recommended verification:
+1. Download only from the official WL distribution page.
+2. Scan the downloaded archive and EXE with your antivirus before running it.
+3. Close SnowRunner before applying or restoring changes.
+4. Use Preview Changes before Apply Mods.
+5. Keep Restore Original available as the supported recovery path.
+
+Never disable antivirus protection globally just to run WL. If a security product flags a release, report the exact detection name, antivirus product/version, and WL release version so it can be investigated.

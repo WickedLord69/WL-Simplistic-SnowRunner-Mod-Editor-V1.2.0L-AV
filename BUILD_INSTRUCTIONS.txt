@@ -1,0 +1,125 @@
+WL Simplistic SnowRunner Mod Editor v1.2.0L-AV
+BUILD INSTRUCTIONS
+
+Created by Wicked Lord
+
+============================================================
+PURPOSE
+============================================================
+
+These instructions reproduce the Windows launcher used for the public
+WL Simplistic SnowRunner Mod Editor v1.2.0L-AV release.
+
+The launcher:
+- Hosts the Windows PowerShell automation engine in-process.
+- Does NOT launch powershell.exe at runtime.
+- Does NOT use -ExecutionPolicy Bypass.
+- Does NOT extract the editor PowerShell script to a TEMP folder.
+
+============================================================
+REQUIREMENTS
+============================================================
+
+- Windows 10 or Windows 11
+- Windows PowerShell 5.1 installed
+- Microsoft .NET Framework C# compiler (csc.exe)
+- The complete source folder, including:
+
+  WL-Simplistic-SnowRunner-Mod-Editor.ps1
+  WL-Launcher.cs
+  BUILD_PUBLIC_RELEASE.bat
+  assets\WL-icon.ico
+  assets\WL-icon.png
+  assets\WL-header-logo.png
+  README.txt
+  FEATURE_GUIDE.txt
+  ANTIVIRUS_AND_SAFETY.txt
+
+No third-party compiler, packer, obfuscator, or installer is required.
+
+============================================================
+BUILD STEPS
+============================================================
+
+1. Extract or clone the complete source repository to a local folder.
+
+2. Make sure the files listed above remain in their original relative paths.
+
+3. Double-click:
+
+   BUILD_PUBLIC_RELEASE.bat
+
+4. The build script automatically locates:
+
+   - csc.exe from the installed Microsoft .NET Framework
+   - System.Management.Automation.dll from Windows PowerShell
+
+5. The build script compiles:
+
+   WL-Launcher.cs
+
+   and embeds:
+
+   WL-Simplistic-SnowRunner-Mod-Editor.ps1
+
+   as the application resource:
+
+   WL.Editor.ps1
+
+6. The resulting executable is:
+
+   WL-Simplistic-SnowRunner-Mod-Editor.exe
+
+7. After a successful build, the script creates:
+
+   PUBLIC_RELEASE\
+
+   containing only the files intended for public distribution.
+
+============================================================
+COMPILER COMMAND
+============================================================
+
+The build script uses Microsoft csc.exe with the equivalent of:
+
+csc.exe /nologo /target:winexe /platform:anycpu /optimize+ ^
+ /out:"WL-Simplistic-SnowRunner-Mod-Editor.exe" ^
+ /win32icon:"assets\WL-icon.ico" ^
+ /reference:"<detected System.Management.Automation.dll>" ^
+ /reference:System.dll ^
+ /reference:System.Core.dll ^
+ /reference:System.Windows.Forms.dll ^
+ /resource:"WL-Simplistic-SnowRunner-Mod-Editor.ps1",WL.Editor.ps1 ^
+ WL-Launcher.cs
+
+The exact System.Management.Automation.dll path is discovered automatically
+on the build machine.
+
+============================================================
+RELEASE / VERIFICATION STEPS
+============================================================
+
+After BUILD SUCCEEDED:
+
+1. Do not whitelist or manually Allow the EXE before antivirus scanning.
+2. Scan the newly compiled EXE with Microsoft Defender.
+3. Scan the PUBLIC_RELEASE folder.
+4. Launch the program.
+5. Run Preview Changes.
+6. Perform a known-good Apply test in SnowRunner.
+7. Test Restore Original.
+8. Zip only the contents of PUBLIC_RELEASE for normal public distribution.
+
+============================================================
+NOTES FOR REVIEWERS
+============================================================
+
+The source repository contains the PowerShell editor source and the C#
+launcher source required to reproduce the public executable.
+
+The v1.2.0L-AV launcher replaced the older packaging architecture that used
+an external powershell.exe process, temporary script extraction, and
+ExecutionPolicy Bypass.
+
+The current launcher hosts Windows PowerShell in-process and embeds the
+editor script as a managed executable resource.
